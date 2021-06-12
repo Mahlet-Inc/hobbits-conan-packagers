@@ -1,0 +1,12 @@
+trigger:
+  - master
+
+
+- job: Ubuntu_Package
+  displayName: Ubuntu Package
+
+  pool:
+    vmImage: ubuntu-18.04
+
+  steps:
+  - template: ./steps.yml

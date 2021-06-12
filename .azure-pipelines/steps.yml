@@ -1,0 +1,35 @@
+parameters:
+  - name: setPython
+    type: boolean
+    default: true
+
+steps:
+  - checkout: self
+    persistCredentials: true
+
+  - task: UsePythonVersion@0 
+    inputs:
+      versionSpec: '3.7'
+    condition: ${{ parameters.setPython }}
+
+  - bash: |
+      python3 -m pip install conan
+    displayName: 'Install Conan'
+    condition: ${{ parameters.setPython }}
+  
+
+  - bash: |
+      cd $(Build.SourcesDirectory)/hobbits-unstable
+      conan config set general.keep_python_files=True
+      conan create .
+    displayName: 'Create Conan Package'
+  
+  - bash: |
+      cd $(Build.SourcesDirectory)/hobbits-unstable
+      conan user --clean
+      conan remote add myconan https://helloadam.jfrog.io/artifactory/api/conan/conan
+      conan user -p -r myconan adam@smr.llc
+      conan upload hobbits/unstable --remote myconan -c --force
+    env:
+      CONAN_PASSWORD: $(CONAN_API_KEY)
+    displayName: 'Upload Conan Package'
