@@ -1,7 +1,7 @@
 trigger:
   - main
 
-
+jobs:
 - job: Ubuntu_Package
   displayName: Ubuntu Package
 
