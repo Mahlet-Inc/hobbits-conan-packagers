@@ -28,10 +28,7 @@ class HobbitsConan(ConanFile):
             del self.options.fPIC
 
     def _configure_cmake(self):
-        if self.settings.os == "Windows":
-            cmake = CMake(self)
-        else:
-            cmake = CMake(self, generator="Ninja")
+        cmake = CMake(self)
         defs = {
             "BUILDING_WITH_CONAN" : 1,
             "JUST_LIBS" : 1
