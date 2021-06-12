@@ -38,7 +38,7 @@ class HobbitsConan(ConanFile):
         }
         if self.settings.build_type == "Release":
             defs["QT_NO_DEBUG"] = 1
-        cmake.configure(source_folder="hobbits/src", defs=defs)
+        cmake.configure(source_folder="hobbits", defs=defs)
         return cmake
 
     def source(self):
