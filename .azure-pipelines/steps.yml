@@ -20,6 +20,7 @@ steps:
 
   - bash: |
       cd $(Build.SourcesDirectory)/hobbits-unstable
+      conan remote add myconan https://helloadam.jfrog.io/artifactory/api/conan/conan
       conan config set general.keep_python_files=True
       conan create .
     displayName: 'Create Conan Package'
@@ -27,7 +28,6 @@ steps:
   - bash: |
       cd $(Build.SourcesDirectory)/hobbits-unstable
       conan user --clean
-      conan remote add myconan https://helloadam.jfrog.io/artifactory/api/conan/conan
       conan user -p -r myconan adam@smr.llc
       conan upload hobbits/unstable --remote myconan -c --force
     env:
